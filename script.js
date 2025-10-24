@@ -4,11 +4,21 @@ let count = 1;
 
 // ページ読み込み時にアクセス日を自動入力
 window.addEventListener("DOMContentLoaded", () => {
-  const accessInput = document.getElementById("accessed");
+  const today = new Date();
+  const formatted = today.toISOString().split("T")[0];
+
+  const accessInput = document.getElementById("access");
+  const updateInput = document.getElementById("updated");
+
+
   if (accessInput) {
-    const today = new Date();
-    const formatted = today.toISOString().split("T")[0]; // 例: 2025-10-23
-    accessInput.value = formatted;
+    if (!accessInput.value){
+      accessInput.value = formatted;
+    }
+    accessInput.placeholder = formatted;
+  }
+  if (updateInput){
+    updateInput.placeholder = formatted;
   }
 });
 
@@ -21,10 +31,10 @@ form.addEventListener("submit", (event) => {
   const site = document.getElementById("site").value.trim();
   const updated = document.getElementById("updated").value.trim();
   const url = document.getElementById("url").value.trim();
-  const accessed = document.getElementById("accessed").value.trim();
+  const access = document.getElementById("access").value.trim();
 
   // 文献フォーマットを組み立て
-  const formatted = `[${number}] ${author}. “${title}”. ${site}. ${updated}. ${url}, (${accessed})`;
+  const formatted = `[${number}] ${author}. “${title}”. ${site}. ${updated}. ${url}, (${access})`;
 
   // <li>要素を作ってリストに追加
   const li = document.createElement("li");
