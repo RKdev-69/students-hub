@@ -2,9 +2,20 @@ const form = document.getElementById("reference-form");
 const list = document.getElementById("reference-list");
 let count = 1;
 
+// ページ読み込み時にアクセス日を自動入力
+window.addEventListener("DOMContentLoaded", () => {
+  const accessInput = document.getElementById("accessed");
+  if (accessInput) {
+    const today = new Date();
+    const formatted = today.toISOString().split("T")[0]; // 例: 2025-10-23
+    accessInput.value = formatted;
+  }
+});
+
 form.addEventListener("submit", (event) => {
   event.preventDefault(); // ページのリロードを防ぐ
 
+  const number = document.getElementById("number").value.trim();
   const author = document.getElementById("author").value.trim();
   const title = document.getElementById("title").value.trim();
   const site = document.getElementById("site").value.trim();
@@ -13,7 +24,7 @@ form.addEventListener("submit", (event) => {
   const accessed = document.getElementById("accessed").value.trim();
 
   // 文献フォーマットを組み立て
-  const formatted = `[${count}] ${author}. “${title}”. ${site}. ${updated}. ${url}, (${accessed})`;
+  const formatted = `[${number}] ${author}. “${title}”. ${site}. ${updated}. ${url}, (${accessed})`;
 
   // <li>要素を作ってリストに追加
   const li = document.createElement("li");
