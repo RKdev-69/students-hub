@@ -61,6 +61,7 @@ ol {
   padding: 4px 8px;
   cursor: pointer;
   font-size: 0.9em;
+  color:#333;
 }
 
 .copy-btn:hover {
