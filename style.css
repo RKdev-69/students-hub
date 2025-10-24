@@ -52,3 +52,17 @@ ol {
   max-width: 600px;
   margin: 0 auto;
 }
+
+.copy-btn {
+  margin-left: 10px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.copy-btn:hover {
+  background-color: #d8f3dc;
+}

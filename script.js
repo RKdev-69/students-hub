@@ -18,6 +18,23 @@ form.addEventListener("submit", (event) => {
   // <li>要素を作ってリストに追加
   const li = document.createElement("li");
   li.textContent = formatted;
+
+  // 📋コピー用ボタンを作成
+  const copyBtn = document.createElement("button");
+  copyBtn.textContent = "📋 コピー";
+  copyBtn.classList.add("copy-btn");
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(formatted)
+      .then(() => {
+        copyBtn.textContent = "✅ コピー済み";
+        setTimeout(() => (copyBtn.textContent = "📋 コピー"), 1500);
+      })
+      .catch(() => {
+        alert("コピーに失敗しました。");
+      });
+  });
+
+  li.appendChild(copyBtn);
   list.appendChild(li);
 
   count++;
