@@ -22,6 +22,64 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  const calendarEl = document.getElementById('calendar');
+  const reportForm = document.getElementById('report-form');
+  const titleInput = document.getElementById('report-title');
+  const dateInput = document.getElementById('report-date');
+
+  // localStorageから保存されたイベントを読み込む
+  const savedEvents = JSON.parse(localStorage.getItem('reportEvents')) || [];
+
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale: 'ja',
+    height: 'auto',
+    editable: true, // ドラッグで動かせるようにする
+    events: savedEvents,
+    eventClick: function(info) {
+      if (confirm(`「${info.event.title}」を削除しますか？`)) {
+        info.event.remove();
+        saveEvents(); // 削除後にlocalStorage更新
+      }
+    },
+    eventDrop: function() {
+      saveEvents(); // 日付変更時に保存
+    }
+  });
+
+  calendar.render();
+
+  // フォーム送信で新しいレポートを追加
+  reportForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const title = titleInput.value.trim();
+    const date = dateInput.value;
+
+    if (title && date) {
+      calendar.addEvent({
+        title: title,
+        start: date,
+        color: '#74c0fc'
+      });
+
+      saveEvents(); // localStorageに保存
+      reportForm.reset();
+    }
+  });
+
+  // localStorageにイベントを保存する関数
+  function saveEvents() {
+    const events = calendar.getEvents().map(event => ({
+      title: event.title,
+      start: event.startStr,
+      color: event.backgroundColor
+    }));
+    localStorage.setItem('reportEvents', JSON.stringify(events));
+  }
+});
+
 form.addEventListener("submit", (event) => {
   event.preventDefault(); // ページのリロードを防ぐ
 

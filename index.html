@@ -9,6 +9,8 @@
 <body>
   <h1>文献リスト生成ツール</h1>
 
+
+  
   <form id="reference-form">
     <label>引用番号: <input type="text" id="number" required></label><br>
     <label>著者名: <input type="text" id="author" required></label><br>
@@ -22,6 +24,21 @@
 
   <h2>文献一覧</h2>
   <ol id="reference-list"></ol>
+
+  <h2>📅 レポート提出カレンダー</h2>
+
+  <form id="report-form">
+    <label>レポート名：</label>
+    <input type="text" id="report-title" required>
+
+    <label>提出日：</label>
+    <input type="date" id="report-date" required>
+
+    <button type="submit">追加</button>
+  </form>
+
+  <div id="calendar"></div>
+
 
   <script src="script.js"></script>
 </body>
