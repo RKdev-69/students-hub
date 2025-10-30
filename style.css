@@ -10,6 +10,11 @@ h1 {
   color: #007acc;
 }
 
+h2 {
+  text-align: center;
+  color: #000000;
+}
+
 form {
   background: #fff;
   padding: 20px;
@@ -66,4 +71,8 @@ ol {
 
 .copy-btn:hover {
   background-color: #d8f3dc;
+}
+
+#p-center {
+  text-align: center;
 }
