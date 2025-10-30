@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar');
   const reportForm = document.getElementById('report-form');
   const titleInput = document.getElementById('report-title');
-  const dateInput = document.getElementById('report-date');
+  const reportdateInput = document.getElementById('report-date');
+  const targetdateInput = document.getElementById('target-date');
 
   // localStorageから保存されたイベントを読み込む
   const savedEvents = JSON.parse(localStorage.getItem('reportEvents')) || [];
@@ -55,14 +56,22 @@ document.addEventListener('DOMContentLoaded', function() {
     e.preventDefault();
 
     const title = titleInput.value.trim();
-    const date = dateInput.value;
+    const reportdate = reportdateInput.value;
+    const targetdate = targetdateInput.value;
 
-    if (title && date) {
+    if (title && reportdate && targetdate) {
       calendar.addEvent({
         title: title,
-        start: date,
-        color: '#74c0fc'
+        start: reportdate,
+        color: '#ff0000ff'
       });
+
+      calendar.addEvent({
+        title: title,
+        start: targetdate,
+        color: '#008900ff'
+      });
+
 
       saveEvents(); // localStorageに保存
       reportForm.reset();
