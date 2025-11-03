@@ -76,3 +76,43 @@ ol {
 #p-center {
   text-align: center;
 }
+
+.tabs {
+  max-width: 500px;
+  margin: 10% auto;
+}
+
+.tab-list {
+  display: flex;
+}
+
+.tab-item {
+  border-radius: 5px 5px 0 0;
+  background-color: #fff;
+  border: solid 1px skyblue;
+  padding: 0.5em 1.2em;
+  cursor: pointer;
+}
+
+.tab-content {
+  background-color: #f5f5f5;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-item.active {
+  background-color: skyblue;
+  color: #fff;
+  font-weight: bold;
+}
+
+.tab-panel.active {
+  display: block;
+  padding: 3%;
+}
+.tab-panel.active h2 {
+  font-size: 20px;
+  font-weight: bold;
+}

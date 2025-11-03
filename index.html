@@ -7,45 +7,57 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>StudentsHub</h1>
+
+  <div class="tabs">
+    <ul class="tab-list">
+      <li class="tab-item active" tabindex="0">タブ1</li>
+      <li class="tab-item" tabindex="0">タブ2</li>
+      <li class="tab-item" tabindex="0">タブ3</li>
+    </ul>
+    <h1>StudentsHub</h1>
+    <div class="tab-contents">
+      <div class="tab-panel active">
+        <h2>文献リスト作成</h2>
+        <form id="reference-form">
+          <label>引用番号: <input type="text" id="number" required></label><br>
+          <label>著者名: <input type="text" id="author" required></label><br>
+          <label>ページタイトル: <input type="text" id="title" required></label><br>
+          <label>サイト名: <input type="text" id="site" required></label><br>
+          <label>更新日: <input type="text" id="updated" placeholder="例: YYYY-MM-DD"></label><br>
+          <label>URL: <input type="url" id="url" required></label><br>
+          <label>アクセス日: <input type="text" id="access" placeholder="例: YYYY-MM-DD"></label><br>
+          <button type="submit">追加</button>
+        </form>
+
+        <h2>文献一覧</h2>
+        <ol id="reference-list"></ol>
+      </div>
+      <div class="tab-panel">
+        <h2>📅 レポート提出カレンダー</h2>
+        <p id="p-center">レポートの期限を設定できます。また、期限日をドラッグで動かすこともできます。</p>
+
+        <form id="report-form">
+          <label>レポート名：</label>
+          <input type="text" id="report-title" required>
+
+          <label>本来の提出日：</label>
+          <input type="date" id="report-date" required>
+
+          <label>目標提出日</label>
+          <input type="date" id="target-date" required>
 
 
-  <h2>文献リスト作成</h2>
-  <form id="reference-form">
-    <label>引用番号: <input type="text" id="number" required></label><br>
-    <label>著者名: <input type="text" id="author" required></label><br>
-    <label>ページタイトル: <input type="text" id="title" required></label><br>
-    <label>サイト名: <input type="text" id="site" required></label><br>
-    <label>更新日: <input type="text" id="updated" placeholder="例: YYYY-MM-DD"></label><br>
-    <label>URL: <input type="url" id="url" required></label><br>
-    <label>アクセス日: <input type="text" id="access" placeholder="例: YYYY-MM-DD"></label><br>
-    <button type="submit">追加</button>
-  </form>
+          <button type="submit">追加</button>
+        </form>
 
-  <h2>文献一覧</h2>
-  <ol id="reference-list"></ol>
+        <div id="calendar"></div>
 
-  <h2>📅 レポート提出カレンダー</h2>
-  <p id="p-center">レポートの期限を設定できます。また、期限日をドラッグで動かすこともできます。</p>
+        <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+      </div>
+      <script src="script.js"></script>
+    </div>
+  </div>
 
-  <form id="report-form">
-    <label>レポート名：</label>
-    <input type="text" id="report-title" required>
-
-    <label>本来の提出日：</label>
-    <input type="date" id="report-date" required>
-
-    <label>目標提出日</label>
-    <input type="date" id="target-date" required>
-
-
-    <button type="submit">追加</button>
-  </form>
-
-  <div id="calendar"></div>
-
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
-  <script src="script.js"></script>
 </body>
 </html>

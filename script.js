@@ -1,5 +1,6 @@
 const form = document.getElementById("reference-form");
 const list = document.getElementById("reference-list");
+const tabItems = document.querySelectorAll(".tab-item");
 let count = 1;
 
 // ページ読み込み時にアクセス日を自動入力
@@ -22,70 +23,74 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+let calendar;
+
 document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar');
-  const reportForm = document.getElementById('report-form');
-  const titleInput = document.getElementById('report-title');
-  const reportdateInput = document.getElementById('report-date');
-  const targetdateInput = document.getElementById('target-date');
+  if (calendarEl) {
+    const reportForm = document.getElementById('report-form');
+    const titleInput = document.getElementById('report-title');
+    const reportdateInput = document.getElementById('report-date');
+    const targetdateInput = document.getElementById('target-date');
 
-  // localStorageから保存されたイベントを読み込む
-  const savedEvents = JSON.parse(localStorage.getItem('reportEvents')) || [];
+    // localStorageから保存されたイベントを読み込む
+    const savedEvents = JSON.parse(localStorage.getItem('reportEvents')) || [];
 
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    locale: 'ja',
-    height: 'auto',
-    editable: true, // ドラッグで動かせるようにする
-    events: savedEvents,
-    eventClick: function(info) {
-      if (confirm(`「${info.event.title}」を削除しますか？`)) {
-        info.event.remove();
-        saveEvents(); // 削除後にlocalStorage更新
+    calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'ja',
+      height: 'auto',
+      editable: true, // ドラッグで動かせるようにする
+      events: savedEvents,
+      eventClick: function(info) {
+        if (confirm(`「${info.event.title}」を削除しますか？`)) {
+          info.event.remove();
+          saveEvents(); // 削除後にlocalStorage更新
+        }
+      },
+      eventDrop: function() {
+        saveEvents(); // 日付変更時に保存
       }
-    },
-    eventDrop: function() {
-      saveEvents(); // 日付変更時に保存
+    });
+
+    calendar.render();
+
+    // フォーム送信で新しいレポートを追加
+    reportForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const title = titleInput.value.trim();
+      const reportdate = reportdateInput.value;
+      const targetdate = targetdateInput.value;
+
+      if (title && reportdate && targetdate) {
+        calendar.addEvent({
+          title: title,
+          start: reportdate,
+          color: '#ff0000ff'
+        });
+
+        calendar.addEvent({
+          title: title,
+          start: targetdate,
+          color: '#008900ff'
+        });
+
+
+        saveEvents(); // localStorageに保存
+        reportForm.reset();
+      }
+    });
+
+    // localStorageにイベントを保存する関数
+    function saveEvents() {
+      const events = calendar.getEvents().map(event => ({
+        title: event.title,
+        start: event.startStr,
+        color: event.backgroundColor
+      }));
+      localStorage.setItem('reportEvents', JSON.stringify(events));
     }
-  });
-
-  calendar.render();
-
-  // フォーム送信で新しいレポートを追加
-  reportForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const title = titleInput.value.trim();
-    const reportdate = reportdateInput.value;
-    const targetdate = targetdateInput.value;
-
-    if (title && reportdate && targetdate) {
-      calendar.addEvent({
-        title: title,
-        start: reportdate,
-        color: '#ff0000ff'
-      });
-
-      calendar.addEvent({
-        title: title,
-        start: targetdate,
-        color: '#008900ff'
-      });
-
-
-      saveEvents(); // localStorageに保存
-      reportForm.reset();
-    }
-  });
-
-  // localStorageにイベントを保存する関数
-  function saveEvents() {
-    const events = calendar.getEvents().map(event => ({
-      title: event.title,
-      start: event.startStr,
-      color: event.backgroundColor
-    }));
-    localStorage.setItem('reportEvents', JSON.stringify(events));
   }
 });
 
@@ -128,4 +133,31 @@ form.addEventListener("submit", (event) => {
   count++;
 
   form.reset(); // 入力欄をリセット
+});
+
+tabItems.forEach((tabItem) => {
+  tabItem.addEventListener("click", () => {
+    // すべてのタブを非アクティブにする
+    tabItems.forEach((t) => {
+      t.classList.remove("active");
+    });
+    // すべてのコンテンツを非表示にする
+    const tabPanels = document.querySelectorAll(".tab-panel");
+    tabPanels.forEach((tabPanel) => {
+      tabPanel.classList.remove("active");
+    });
+
+    // クリックされたタブをアクティブにする
+    tabItem.classList.add("active");
+
+    // 対応するコンテンツを表示
+    const tabIndex = Array.from(tabItems).indexOf(tabItem);
+    const activePanel = tabPanels[tabIndex];
+    activePanel.classList.add("active");
+
+    // カレンダータブが表示されたら、カレンダーのサイズを更新
+    if (activePanel.querySelector('#calendar') && calendar) {
+      calendar.updateSize();
+    }
+  });
 });
