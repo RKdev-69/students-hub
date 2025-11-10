@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
+    displayReports();
 
     // フォーム送信で新しいレポートを追加
     reportForm.addEventListener('submit', function(e) {
@@ -134,12 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
           <br>
           <small>目標日: ${targetDate} / 提出日: ${originalDate}</small>
         `;
-        reportListElement.appendChild(li);
+        reportList.appendChild(li);
       }
   }
-  
-  // ページ読み込み時にレポート一覧を表示
-  document.addEventListener('DOMContentLoaded', displayReports);
   }
 });
 
