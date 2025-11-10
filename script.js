@@ -90,7 +90,56 @@ document.addEventListener('DOMContentLoaded', function() {
         color: event.backgroundColor
       }));
       localStorage.setItem('reportEvents', JSON.stringify(events));
+
+      displayReports();
     }
+
+    function displayReports() {
+      const reportList = document.getElementById("report-list");
+      if (!reportList) return;
+    
+    // localStorageからイベントデータを取得
+      const savedEvents = JSON.parse(localStorage.getItem('reportEvents')) || [];
+    
+      // レポート名でイベントをグループ化し、日付をまとめる
+      const reports = savedEvents.reduce((acc, event) => {
+        if (!acc[event.title]) {
+          acc[event.title] = {
+            deadlines: []
+          };
+        }
+        // 日付の重複を避けて追加
+        if (!acc[event.title].deadlines.includes(event.start.split('T')[0])) {
+            acc[event.title].deadlines.push(event.start.split('T')[0]);
+        }
+        return acc;
+      }, {});
+    
+      // リストをクリア
+      reportList.innerHTML = '';
+    
+      // レポートごとにリストアイテムを作成して表示
+      for (const title in reports) {
+        const report = reports[title];
+        const li = document.createElement('li');
+    
+        // 日付を昇順でソート
+        report.deadlines.sort();
+    
+        const targetDate = report.deadlines[0]; // 目標提出日
+        const originalDate = report.deadlines[1] || targetDate; // 本来の提出日
+    
+        li.innerHTML = `
+          <strong>${title}</strong>
+          <br>
+          <small>目標日: ${targetDate} / 提出日: ${originalDate}</small>
+        `;
+        reportListElement.appendChild(li);
+      }
+  }
+  
+  // ページ読み込み時にレポート一覧を表示
+  document.addEventListener('DOMContentLoaded', displayReports);
   }
 });
 
@@ -161,3 +210,4 @@ tabItems.forEach((tabItem) => {
     }
   });
 });
+
